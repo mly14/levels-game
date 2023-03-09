@@ -15,3 +15,13 @@ strong {
 a {
   color: #c75a00;
 }
+
+.time {
+  border: 2px red solid;
+  width: 50%;
+}
+
+.content {
+  border: 2px green solid;
+  width: 50%;
+}
