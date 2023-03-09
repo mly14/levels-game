@@ -4,7 +4,7 @@
     "host": "vite --host",
     "build": "rollup --config",
     "preview": "vite build && vite preview",
-    "deploy": "vite build --base=/webdev-template/ && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.0.1",
