@@ -2,19 +2,15 @@
   "scripts": {
     "start": "vite",
     "host": "vite --host",
-    "build": "rollup --config",
+    "build": "vite build",
     "preview": "vite build && vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "vite build --base=/webdev-template/ && gh-pages -d dist"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.0.1",
     "gh-pages": "^5.0.0",
-    "rollup": "^3.18.0",
-    "rollup-plugin-copy": "^3.4.0",
     "vite": "^4.1.4"
   },
   "dependencies": {
-    "firebase": "^9.17.2",
     "lit-html": "^2.6.1"
   }
 }
