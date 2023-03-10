@@ -8,6 +8,7 @@ import {
   getDocs,
   onSnapshot,
   query,
+  limit,
   orderBy,
 } from "firebase/firestore";
 import { html, render } from "lit-html";
@@ -35,13 +36,14 @@ const db = getFirestore(app);
 let messages = [];
 const messagesRef = collection(db, "messages");
 
-async function sendMessage(txt) {
+async function sendMessage(score, username) {
   console.log("Sending a message!");
   // Add some data to the messages collection
   try {
     const docRef = await addDoc(collection(db, "messages"), {
       time: Date.now(),
-      content: txt,
+      score: score,
+      name: username,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -66,7 +68,7 @@ async function getAllMessages() {
   messages = [];
 
   const querySnapshot = await getDocs(
-    query(messagesRef, orderBy("time", "desc"))
+    query(messagesRef, orderBy("score", "desc"), limit(5))
   );
   querySnapshot.forEach((doc) => {
     let msgData = doc.data();
@@ -81,8 +83,10 @@ getAllMessages();
 
 function view() {
   return html` <div id="messages-container">
-    ${messages.map((msg) => html`<div class="content">${msg.content}</div>`)}
-    ${messages.map((msg) => html`<div class="time">${msg.time}</div>`)}
+    ${messages.map((msg) => html`<div class="messages-name">${msg.name}</div>`)}
+    ${messages.map(
+      (msg) => html`<div class="messages-score">${msg.score}</div>`
+    )}
   </div>`;
 }
 

@@ -13,19 +13,18 @@ let nextScreenBtn;
 let nameInput;
 let button;
 let mydiv;
+let items;
 
 function preload() {
   soundFormats("mp3");
-  game_over_sound = loadSound("./assets/game_over.mp3");
-  // inconsolata = loadFont('font.ttf');
-
-  // bounce_sound = loadSound('bounce.wav');
+  // game_over_sound = loadSound("./assets/game_over.mp3");
+  // bounce_sound = loadSound("bounce.wav");
 }
 
 function setup() {
   cnv = createCanvas(400, 400);
-  mydiv = createDiv();
-  // cnv.parent("mydiv");
+  cnv.parent("game-div");
+  items = new Group();
 }
 
 function draw() {
@@ -47,6 +46,7 @@ function changeScreen() {
   } else if (screen == 2) {
     initialize = true;
     screen = 0;
+    enter(timeCounter, nameInput.value());
     nameInput.remove();
     button.remove();
     replayBtnCounter = true;
@@ -61,18 +61,13 @@ function startScreen() {
   levelSpeed = -1;
   textAlign(CENTER);
   textLeading(45);
-  // let time = millis();
-  // rotateX(time / 10);
-  // rotateZ(time / 1234);
-  // text('p5.js', 0, 0);
-  // textFont(inconsolata);
   text("Levels Game!", width / 2, height / 2);
   textSize(18);
   if (playBtnCounter) {
     nextScreenBtn = createButton("Play");
-    // nextScreenBtn.parent("mydiv");
+    nextScreenBtn.parent("game-div");
 
-    nextScreenBtn.position(0, 0, "relative");
+    nextScreenBtn.position(-220, -100, "relative");
     nextScreenBtn.mouseClicked(changeScreen);
     playBtnCounter = false;
   }
@@ -84,11 +79,10 @@ function clearCanvas() {
 }
 
 function gameOn() {
-  let items = new Group();
   let x_pos = random(0, 400);
 
   background("gray");
-  text("Counter: " + timeCounter, width / 2, 20);
+  text("Score: " + timeCounter, width / 2, 20);
 
   for (let s of allSprites) {
     if (s.x < -MARGIN) s.x = width + MARGIN;
@@ -133,7 +127,6 @@ function gameOn() {
   if (frameCount % 120 == 2) {
     print("timeCounter: " + timeCounter);
     if (levelSpeed > -2) {
-      // levelSpeed -= 0.1;
       print("levelSpeed: " + levelSpeed);
     }
     timeCounter++;
@@ -144,23 +137,22 @@ function gameOn() {
     floor.velocity.y = levelSpeed;
   }
 
-  // get rid of passed pipes
+  // get rid of passed platforms
   for (let item of items) {
-    if (item.y < 0) {
+    if (item.y == 0) {
       item.remove();
     }
   }
 }
 
 function gameOver() {
-  // clear();
   allSprites.remove();
   if (sound == true) {
     game_over_sound.play();
     sound = false;
   }
   background("#fce6e6");
-  text("Counter: " + timeCounter, width / 2, 20);
+  text("Score: " + timeCounter, width / 2, 20);
   fill("black");
   textAlign(CENTER);
   textSize(32);
@@ -171,20 +163,18 @@ function gameOver() {
   textSize(18);
 
   if (replayBtnCounter) {
-    // console.log(replayBtnCounter);
     nameInput = createInput();
-    nameInput.position(0, 0, "relative");
+    nameInput.position(-310, -100, "relative");
+    nameInput.parent("game-div");
     button = createButton("submit");
-    button.position(160, 0, "relative");
-    // console.log(screen);
-
+    button.position(-310, -100, "relative");
+    button.parent("game-div");
     button.mouseClicked(changeScreen);
     replayBtnCounter = false;
-    // console.log(replayBtnCounter);
   }
 }
 
-function enter(score) {
-  changeScreen();
-  sendMessage(score);
+function enter(score, username) {
+  console.log(nameInput.value());
+  sendMessage(score, username);
 }

@@ -16,12 +16,25 @@ a {
   color: #c75a00;
 }
 
-.time {
+.messages-name {
   border: 2px red solid;
-  width: 50%;
+  width: 40%;
+  float: left;
 }
 
-.content {
+.messages-score {
   border: 2px green solid;
   width: 50%;
+  float: left;
+}
+
+#messages-container {
+  /* border: 2px brown solid; */
+  width: 100%;
+}
+
+#game-div {
+  /* border: 2px pink solid; */
+  margin: 0 auto;
+  position: relative;
 }
